@@ -89,6 +89,54 @@
             transition: border-color 0.3s;
         }
         
+        /* إضافة خاصية البحث للقوائم المنسدلة */
+        select[data-searchable] {
+            cursor: pointer;
+        }
+        
+        .search-container {
+            position: relative;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .search-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 2px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 5px 5px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+        }
+        
+        .search-option {
+            padding: 12px;
+            cursor: pointer;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .search-option:hover,
+        .search-option.highlighted {
+            background-color: #f8f9fa;
+        }
+        
+        .search-option:last-child {
+            border-bottom: none;
+        }
+        
         input[type="text"]:focus,
         input[type="email"]:focus,
         input[type="url"]:focus,
@@ -226,72 +274,59 @@
                 <div class="form-row">
                     <div class="form-col">
                         <div class="form-group">
-                            <label for="city">المدينة</label>
-                            <select id="city" name="city">
-                                <option value="">اختر المدينة</option>
-                                <option value="جدة">جدة</option>
-                                <option value="الرياض">الرياض</option>
-                                <option value="الدمام">الدمام</option>
-                                <option value="مكة">مكة</option>
-                                <option value="المدينة">المدينة</option>
-                            </select>
+                            <label for="city">المدينة <span class="required">*</span></label>
+                            <div class="search-container">
+                                <input type="text" id="city-search" class="search-input" placeholder="ابحث عن المدينة..." autocomplete="off">
+                                <input type="hidden" id="city" name="city" required>
+                                <div id="city-dropdown" class="search-dropdown"></div>
+                            </div>
                         </div>
                     </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="district">الحي <span class="required">*</span></label>
+                            <div class="search-container">
+                                <input type="text" id="district-search" class="search-input" placeholder="اختر المدينة أولاً" disabled autocomplete="off">
+                                <input type="hidden" id="district" name="district" required>
+                                <div id="district-dropdown" class="search-dropdown"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-row">
                     <div class="form-col">
                         <div class="form-group">
                             <label for="building_no">رقم المبنى <span class="required">*</span></label>
                             <input type="text" id="building_no" name="building_no" required>
                         </div>
                     </div>
-                </div>
-                
-                <div class="form-row">
                     <div class="form-col">
                         <div class="form-group">
                             <label for="street">اسم الشارع <span class="required">*</span></label>
                             <input type="text" id="street" name="street" required>
                         </div>
                     </div>
+                </div>
+                
+                <div class="form-row">
                     <div class="form-col">
                         <div class="form-group">
                             <label for="postal">الرمز البريدي <span class="required">*</span></label>
                             <input type="text" id="postal" name="postal" required>
                         </div>
                     </div>
-                </div>
-                
-                <div class="form-row">
                     <div class="form-col">
                         <div class="form-group">
                             <label for="extra_no">الرقم الإضافي <span class="required">*</span></label>
                             <input type="text" id="extra_no" name="extra_no" required>
                         </div>
                     </div>
-                    <div class="form-col">
-                        <div class="form-group">
-                            <label for="region">المنطقة <span class="required">*</span></label>
-                            <input type="text" id="region" name="region" required>
-                        </div>
-                    </div>
                 </div>
                 
-                <div class="form-row">
-                    <div class="form-col">
-                        <div class="form-group">
-                            <label for="district">الحي</label>
-                            <select id="district" name="district">
-                                <option value="">اختر الحي</option>
-                                <option value="النسيم">النسيم</option>
-                                <option value="الشرفية">الشرفية</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-col">
-                        <div class="form-group">
-                            <label for="maps_url">رابط الموقع الجغرافي (قوقل ماب)</label>
-                            <input type="url" id="maps_url" name="maps_url">
-                        </div>
-                    </div>
+                <div class="form-group">
+                    <label for="maps_url">رابط الموقع الجغرافي (قوقل ماب)</label>
+                    <input type="url" id="maps_url" name="maps_url">
                 </div>
             </div>
             
@@ -315,8 +350,8 @@
                 </div>
                 
                 <div class="form-group">
-                    <label for="cr_vat_file">مرفق (صورة/ملف للسجل التجاري والرقم الضريبي)</label>
-                    <input type="file" id="cr_vat_file" name="cr_vat_file" accept=".pdf,.jpg,.jpeg,.png,.heic">
+                    <label for="cr_vat_file">مرفق (صورة/ملف للسجل التجاري والرقم الضريبي) <span class="required">*</span></label>
+                    <input type="file" id="cr_vat_file" name="cr_vat_file" accept=".pdf,.jpg,.jpeg,.png,.heic" required>
                     <div class="file-info">
                         يقبل: PDF / JPG / PNG / HEIC | ملف واحد فقط | الحجم الأقصى: 1GB
                     </div>
@@ -335,6 +370,34 @@
     </div>
     
     <script>
+        // بيانات المدن والأحياء
+        const cities = ['جدة', 'الرياض', 'الدمام', 'مكة', 'المدينة'];
+        
+        const cityDistricts = {
+            'الرياض': [
+                'العليا', 'الملز', 'النسيم', 'الشفا', 'النرجس', 'الربوة', 'الصحافة', 'المروج',
+                'النخيل', 'الياسمين', 'الواحة', 'المعيزيلة', 'الفلاح', 'الخزامى', 'الورود',
+                'الندى', 'المنار', 'الجنادرية', 'الحمراء', 'المربع', 'عرقة', 'الديرة'
+            ],
+            'جدة': [
+                'الشرفية', 'الصفا', 'البوادي', 'أبحر الشمالية', 'أبحر الجنوبية', 'الحمدانية',
+                'النعيم', 'الزهراء', 'الرحاب', 'البساتين', 'المرجان', 'النزلة الشرقية',
+                'النزلة اليمانية', 'الثعالبة', 'الكندرة', 'السليمانية', 'الروضة', 'الأجواد'
+            ],
+            'الدمام': [
+                'الشاطئ', 'الحمراء', 'الجلوية', 'البادية', 'النور', 'الأمانة', 'طيبة',
+                'الروضة', 'الصناعية', 'النسيم', 'الفرحان', 'العروبة', 'السيف', 'الخليج'
+            ],
+            'مكة': [
+                'العتيبية', 'النوارية', 'الهنداوية', 'أجياد', 'العزيزية', 'الشبيكة',
+                'الزاهر', 'الراشدية', 'المنصور', 'الشرائع', 'الكعكية', 'الطندباوي'
+            ],
+            'المدينة': [
+                'العوالي', 'قربان', 'المبعوث', 'السيح', 'الدويمة', 'البحر', 'الملك فهد',
+                'الأصيفرين', 'النخاولة', 'الخالدية', 'طيبة', 'الحرة الشرقية'
+            ]
+        };
+
         // تعبئة الحقول الخفية عند تحميل الصفحة
         window.addEventListener('DOMContentLoaded', function() {
             // قراءة كود المندوب من الرابط
@@ -347,6 +410,186 @@
             // تعيين الطابع الزمني
             const now = new Date();
             document.getElementById('ts').value = now.toISOString();
+            
+            // تفعيل البحث في المدن
+            initializeSearchableSelect('city', cities);
+        });
+
+        // تفعيل البحث في القوائم المنسدلة
+        function initializeSearchableSelect(type, options) {
+            const searchInput = document.getElementById(type + '-search');
+            const hiddenInput = document.getElementById(type);
+            const dropdown = document.getElementById(type + '-dropdown');
+            
+            let selectedIndex = -1;
+            
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                const filteredOptions = options.filter(option => 
+                    option.toLowerCase().includes(searchTerm)
+                );
+                
+                showDropdown(dropdown, filteredOptions, type);
+                selectedIndex = -1;
+            });
+            
+            searchInput.addEventListener('focus', function() {
+                showDropdown(dropdown, options, type);
+            });
+            
+            searchInput.addEventListener('keydown', function(e) {
+                const visibleOptions = dropdown.querySelectorAll('.search-option');
+                
+                if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    selectedIndex = Math.min(selectedIndex + 1, visibleOptions.length - 1);
+                    highlightOption(visibleOptions, selectedIndex);
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    selectedIndex = Math.max(selectedIndex - 1, -1);
+                    highlightOption(visibleOptions, selectedIndex);
+                } else if (e.key === 'Enter') {
+                    e.preventDefault();
+                    if (selectedIndex >= 0 && visibleOptions[selectedIndex]) {
+                        selectOption(type, visibleOptions[selectedIndex].textContent);
+                    }
+                } else if (e.key === 'Escape') {
+                    hideDropdown(dropdown);
+                }
+            });
+            
+            // إخفاء القائمة عند النقر خارجها
+            document.addEventListener('click', function(e) {
+                if (!searchInput.contains(e.target) && !dropdown.contains(e.target)) {
+                    hideDropdown(dropdown);
+                }
+            });
+        }
+        
+        function showDropdown(dropdown, options, type) {
+            dropdown.innerHTML = '';
+            
+            options.forEach(option => {
+                const div = document.createElement('div');
+                div.className = 'search-option';
+                div.textContent = option;
+                div.addEventListener('click', function() {
+                    selectOption(type, option);
+                });
+                dropdown.appendChild(div);
+            });
+            
+            dropdown.style.display = options.length > 0 ? 'block' : 'none';
+        }
+        
+        function hideDropdown(dropdown) {
+            dropdown.style.display = 'none';
+        }
+        
+        function highlightOption(options, index) {
+            options.forEach((option, i) => {
+                option.classList.toggle('highlighted', i === index);
+            });
+        }
+        
+        function selectOption(type, value) {
+            const searchInput = document.getElementById(type + '-search');
+            const hiddenInput = document.getElementById(type);
+            const dropdown = document.getElementById(type + '-dropdown');
+            
+            searchInput.value = value;
+            hiddenInput.value = value;
+            hideDropdown(dropdown);
+            
+            // إذا تم اختيار مدينة، تفعيل البحث في الأحياء
+            if (type === 'city') {
+                const districtSearch = document.getElementById('district-search');
+                const districtHidden = document.getElementById('district');
+                
+                if (cityDistricts[value]) {
+                    districtSearch.disabled = false;
+                    districtSearch.placeholder = 'ابحث عن الحي...';
+                    districtSearch.value = '';
+                    districtHidden.value = '';
+                    
+                    initializeSearchableSelect('district', cityDistricts[value]);
+                } else {
+                    districtSearch.disabled = true;
+                    districtSearch.placeholder = 'اختر المدينة أولاً';
+                    districtSearch.value = '';
+                    districtHidden.value = '';
+                }
+            }
+        }
+        
+        // التحقق من صحة النموذج
+        document.getElementById('customerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const phone = document.getElementById('phone').value;
+            const phonePattern = /^05[0-9]{8}$/;
+            
+            if (!phonePattern.test(phone)) {
+                showMessage('يجب أن يبدأ رقم الجوال بـ 05 ويتكون من 10 أرقام', 'error');
+                return false;
+            }
+            
+            // التحقق من رفع الملف
+            const fileInput = document.getElementById('cr_vat_file');
+            if (!fileInput.files.length) {
+                showMessage('يجب رفع ملف السجل التجاري والرقم الضريبي', 'error');
+                return false;
+            }
+            
+            // التحقق من حجم الملف
+            if (fileInput.files.length > 0) {
+                const fileSize = fileInput.files[0].size;
+                const maxSize = 1024 * 1024 * 1024; // 1GB
+                
+                if (fileSize > maxSize) {
+                    showMessage('حجم الملف يجب أن يكون أقل من 1GB', 'error');
+                    return false;
+                }
+            }
+            
+            showMessage('تم إرسال النموذج بنجاح!', 'success');
+        });
+        
+        function showMessage(text, type) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = text;
+            messageDiv.className = 'message ' + type;
+            messageDiv.style.display = 'block';
+            
+            // إخفاء الرسالة بعد 5 ثوان
+            setTimeout(() => {
+                messageDiv.style.display = 'none';
+            }, 5000);
+        }
+        
+        // إعادة تعيين النموذج
+        document.querySelector('.reset-btn').addEventListener('click', function() {
+            document.getElementById('message').style.display = 'none';
+            
+            // إعادة تعيين حقول البحث
+            document.getElementById('city-search').value = '';
+            document.getElementById('city').value = '';
+            document.getElementById('district-search').value = '';
+            document.getElementById('district-search').disabled = true;
+            document.getElementById('district-search').placeholder = 'اختر المدينة أولاً';
+            document.getElementById('district').value = '';
+            
+            // إخفاء القوائم المنسدلة
+            document.getElementById('city-dropdown').style.display = 'none';
+            document.getElementById('district-dropdown').style.display = 'none';
+            
+            // إعادة تعيين الطابع الزمني
+            const now = new Date();
+            document.getElementById('ts').value = now.toISOString();
+        });
+    </script>defaultOption.textContent = 'اختر المدينة أولاً';
+                districtSelect.appendChild(defaultOption);
+            }
         });
         
         // التحقق من صحة النموذج
@@ -391,6 +634,14 @@
         // إعادة تعيين الرسائل عند إعادة تعيين النموذج
         document.querySelector('.reset-btn').addEventListener('click', function() {
             document.getElementById('message').style.display = 'none';
+            // إعادة تعيين قائمة الأحياء
+            const districtSelect = document.getElementById('district');
+            districtSelect.innerHTML = '';
+            districtSelect.disabled = true;
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.textContent = 'اختر المدينة أولاً';
+            districtSelect.appendChild(defaultOption);
             // إعادة تعيين الطابع الزمني
             const now = new Date();
             document.getElementById('ts').value = now.toISOString();
