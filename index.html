@@ -207,6 +207,12 @@
             border: 1px solid #f5c6cb;
         }
         
+        .info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        
         @media (max-width: 768px) {
             .form-row {
                 flex-direction: column;
@@ -227,7 +233,7 @@
     <div class="container">
         <h1>فورم تسجيل العملاء</h1>
         
-        <form id="customerForm" method="post" enctype="multipart/form-data">
+        <form id="customerForm" method="post" action="https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec" enctype="multipart/form-data">
             <!-- الحقول الخفية -->
             <input type="hidden" id="agent" name="agent" value="">
             <input type="hidden" id="ts" name="ts" value="">
@@ -522,7 +528,7 @@
             }
         }
         
-        // التحقق من صحة النموذج
+        // التحقق من صحة النموذج وإرساله
         document.getElementById('customerForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -552,8 +558,47 @@
                 }
             }
             
-            showMessage('تم إرسال النموذج بنجاح!', 'success');
+            // إرسال البيانات
+            submitFormData();
         });
+        
+        // إرسال بيانات النموذج إلى Google Apps Script
+        function submitFormData() {
+            const form = document.getElementById('customerForm');
+            const formData = new FormData(form);
+            
+            // إظهار رسالة التحميل
+            showMessage('جاري إرسال البيانات...', 'info');
+            
+            // تعطيل زر الإرسال
+            const submitBtn = document.querySelector('.submit-btn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'جاري الإرسال...';
+            
+            // الحصول على رابط Google Apps Script
+            const scriptUrl = form.action;
+            
+            fetch(scriptUrl, {
+                method: 'POST',
+                body: formData,
+                mode: 'no-cors' // مطلوب مع Google Apps Script
+            })
+            .then(() => {
+                // بما أن no-cors لا يرجع response، نفترض النجاح
+                showMessage('تم إرسال البيانات بنجاح! سيتم الرد عليك قريباً.', 'success');
+                form.reset();
+                resetForm();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showMessage('حدث خطأ في الاتصال. يرجى المحاولة مرة أخرى.', 'error');
+            })
+            .finally(() => {
+                // إعادة تفعيل زر الإرسال
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'إرسال';
+            });
+        }
         
         function showMessage(text, type) {
             const messageDiv = document.getElementById('message');
@@ -569,6 +614,10 @@
         
         // إعادة تعيين النموذج
         document.querySelector('.reset-btn').addEventListener('click', function() {
+            resetForm();
+        });
+        
+        function resetForm() {
             document.getElementById('message').style.display = 'none';
             
             // إعادة تعيين حقول البحث
@@ -586,7 +635,7 @@
             // إعادة تعيين الطابع الزمني
             const now = new Date();
             document.getElementById('ts').value = now.toISOString();
-        });
+        }
     </script>defaultOption.textContent = 'اختر المدينة أولاً';
                 districtSelect.appendChild(defaultOption);
             }
