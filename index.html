@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>فورم تسجيل العملاء</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+        
+        .section {
+            margin-bottom: 25px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fafafa;
+        }
+        
+        .section h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 20px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 5px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .form-col {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        
+        .required {
+            color: #e74c3c;
+        }
+        
+        input[type="text"],
+        input[type="email"],
+        input[type="url"],
+        input[type="file"],
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="url"]:focus,
+        select:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+        
+        .file-info {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .buttons {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+        }
+        
+        button {
+            padding: 15px 30px;
+            margin: 0 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .submit-btn {
+            background-color: #27ae60;
+            color: white;
+        }
+        
+        .submit-btn:hover {
+            background-color: #2ecc71;
+        }
+        
+        .reset-btn {
+            background-color: #95a5a6;
+            color: white;
+        }
+        
+        .reset-btn:hover {
+            background-color: #7f8c8d;
+        }
+        
+        .message {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            display: none;
+        }
+        
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+            }
+            
+            .container {
+                padding: 20px;
+            }
+            
+            button {
+                margin: 5px 0;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>فورم تسجيل العملاء</h1>
+        
+        <form id="customerForm" method="post" enctype="multipart/form-data">
+            <!-- الحقول الخفية -->
+            <input type="hidden" id="agent" name="agent" value="">
+            <input type="hidden" id="ts" name="ts" value="">
+            
+            <!-- المعلومات الأساسية -->
+            <div class="section">
+                <h2>المعلومات الأساسية</h2>
+                
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="cust_name">اسم العميل <span class="required">*</span></label>
+                            <input type="text" id="cust_name" name="cust_name" required>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="contact_name">اسم مسؤول الاتصال <span class="required">*</span></label>
+                            <input type="text" id="contact_name" name="contact_name" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="phone">رقم الجوال (05XXXXXXXX) <span class="required">*</span></label>
+                            <input type="text" id="phone" name="phone" pattern="05[0-9]{8}" maxlength="10" required>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="email">البريد الإلكتروني</label>
+                            <input type="email" id="email" name="email">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- العنوان -->
+            <div class="section">
+                <h2>العنوان</h2>
+                
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="city">المدينة</label>
+                            <select id="city" name="city">
+                                <option value="">اختر المدينة</option>
+                                <option value="جدة">جدة</option>
+                                <option value="الرياض">الرياض</option>
+                                <option value="الدمام">الدمام</option>
+                                <option value="مكة">مكة</option>
+                                <option value="المدينة">المدينة</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="building_no">رقم المبنى <span class="required">*</span></label>
+                            <input type="text" id="building_no" name="building_no" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="street">اسم الشارع <span class="required">*</span></label>
+                            <input type="text" id="street" name="street" required>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="postal">الرمز البريدي <span class="required">*</span></label>
+                            <input type="text" id="postal" name="postal" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="extra_no">الرقم الإضافي <span class="required">*</span></label>
+                            <input type="text" id="extra_no" name="extra_no" required>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="region">المنطقة <span class="required">*</span></label>
+                            <input type="text" id="region" name="region" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="district">الحي</label>
+                            <select id="district" name="district">
+                                <option value="">اختر الحي</option>
+                                <option value="النسيم">النسيم</option>
+                                <option value="الشرفية">الشرفية</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="maps_url">رابط الموقع الجغرافي (قوقل ماب)</label>
+                            <input type="url" id="maps_url" name="maps_url">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- السجل التجاري والضرائب -->
+            <div class="section">
+                <h2>السجل التجاري والضرائب</h2>
+                
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="cr_no">رقم السجل التجاري <span class="required">*</span></label>
+                            <input type="text" id="cr_no" name="cr_no" required>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="vat_no">الرقم الضريبي <span class="required">*</span></label>
+                            <input type="text" id="vat_no" name="vat_no" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="cr_vat_file">مرفق (صورة/ملف للسجل التجاري والرقم الضريبي)</label>
+                    <input type="file" id="cr_vat_file" name="cr_vat_file" accept=".pdf,.jpg,.jpeg,.png,.heic">
+                    <div class="file-info">
+                        يقبل: PDF / JPG / PNG / HEIC | ملف واحد فقط | الحجم الأقصى: 1GB
+                    </div>
+                </div>
+            </div>
+            
+            <!-- الأزرار -->
+            <div class="buttons">
+                <button type="submit" class="submit-btn">إرسال</button>
+                <button type="reset" class="reset-btn">إعادة تعيين</button>
+            </div>
+            
+            <!-- رسالة النجاح أو الخطأ -->
+            <div id="message" class="message"></div>
+        </form>
+    </div>
+    
+    <script>
+        // تعبئة الحقول الخفية عند تحميل الصفحة
+        window.addEventListener('DOMContentLoaded', function() {
+            // قراءة كود المندوب من الرابط
+            const urlParams = new URLSearchParams(window.location.search);
+            const agentCode = urlParams.get('agent');
+            if (agentCode) {
+                document.getElementById('agent').value = agentCode;
+            }
+            
+            // تعيين الطابع الزمني
+            const now = new Date();
+            document.getElementById('ts').value = now.toISOString();
+        });
+        
+        // التحقق من صحة النموذج
+        document.getElementById('customerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const phone = document.getElementById('phone').value;
+            const phonePattern = /^05[0-9]{8}$/;
+            
+            if (!phonePattern.test(phone)) {
+                showMessage('يجب أن يبدأ رقم الجوال بـ 05 ويتكون من 10 أرقام', 'error');
+                return false;
+            }
+            
+            // التحقق من حجم الملف
+            const fileInput = document.getElementById('cr_vat_file');
+            if (fileInput.files.length > 0) {
+                const fileSize = fileInput.files[0].size;
+                const maxSize = 1024 * 1024 * 1024; // 1GB
+                
+                if (fileSize > maxSize) {
+                    showMessage('حجم الملف يجب أن يكون أقل من 1GB', 'error');
+                    return false;
+                }
+            }
+            
+            showMessage('تم إرسال النموذج بنجاح!', 'success');
+        });
+        
+        function showMessage(text, type) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = text;
+            messageDiv.className = 'message ' + type;
+            messageDiv.style.display = 'block';
+            
+            // إخفاء الرسالة بعد 5 ثوان
+            setTimeout(() => {
+                messageDiv.style.display = 'none';
+            }, 5000);
+        }
+        
+        // إعادة تعيين الرسائل عند إعادة تعيين النموذج
+        document.querySelector('.reset-btn').addEventListener('click', function() {
+            document.getElementById('message').style.display = 'none';
+            // إعادة تعيين الطابع الزمني
+            const now = new Date();
+            document.getElementById('ts').value = now.toISOString();
+        });
+    </script>
+</body>
+</html>
