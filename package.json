@@ -1,0 +1,17 @@
+{
+  "name": "customer-registration-form",
+  "version": "1.0.0",
+  "description": "نموذج تسجيل العملاء مع رفع الملفات على Google",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "echo 'Build complete'",
+    "start": "vercel dev"
+  },
+  "dependencies": {
+    "formidable": "^3.5.1",
+    "googleapis": "^128.0.0"
+  },
+  "devDependencies": {
+    "@vercel/node": "^3.0.0"
+  }
+}
